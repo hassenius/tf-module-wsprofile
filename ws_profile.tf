@@ -28,8 +28,23 @@ resource "null_resource" "create_profile" {
   # Outputs the JSON in the format "-key1 value1 -key2 value2.....-keyN valueN"
   # Supports empty values
   provisioner "file" {
-    source      = "${path.module}/scripts/parseoptions.py"
     destination = "/tmp/parseoptions.py"
+ content     = <<EOF
+import os, sys, json
+# Hard coded options file for now
+optionjson = '/tmp/wsadmin-profile-create-config.yaml'
+
+# Read parameter items
+with open(optionjson, 'r') as stream:
+  o = json.load(stream)
+
+parameters = ''
+if len(o) > 0:
+  for key, val in o.iteritems():
+    parameters += ' -%s %s' % (key, val)
+
+print parameters
+EOF
   }
   
   # If we want to support other archive locations we can refactor this to be run from a script later
