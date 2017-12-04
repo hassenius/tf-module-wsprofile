@@ -36,9 +36,9 @@ resource "null_resource" "create_profile" {
   # Right now run manageprofiles with parsed options
   provisioner "remote-exec" {
     inline = [
-      "while ! test -e ${var.user_home}/.install_complete ; do  echo \"Waiting for software install to complete\" ; sleep 10s ; done",       # Workaround for lack of module dependency
+      "while ! test -e ${var.base_dir}/.install_complete ; do  echo \"Waiting for software install to complete\" ; sleep 10s ; done",       # Workaround for lack of module dependency
       "echo \"========== Creating profile ============\"",
-      "${var.user_home}/IBM/WebSphere/AppServer/bin/manageprofiles.sh -create -adminUserName ${var.wsadmin_user} -adminPassword ${var.admin_password != "Generate" ? var.admin_password : random_id.wspasswd.hex} `python /tmp/parseoptions.py`"
+      "${var.base_dir}/IBM/WebSphere/AppServer/bin/manageprofiles.sh -create -adminUserName ${var.wsadmin_user} -adminPassword ${var.admin_password != "Generate" ? var.admin_password : random_id.wspasswd.hex} `python /tmp/parseoptions.py`"
     ]
   }
 }

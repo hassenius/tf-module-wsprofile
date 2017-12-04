@@ -4,9 +4,9 @@ variable "profile_create_opts" {
   default     = {}
 }
 
-variable "user_home" {
-  description = "Home directory of the user where WebSphere is installed"
-  default     = ""
+variable "base_dir" {
+  description = "Home directory of the user where WebSphere is installed. Default logged in users home directory"
+  default     = "~" 
 }
 
 variable "wsadmin_user" {
